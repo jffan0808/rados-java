@@ -20,6 +20,7 @@ package com.ceph.rados.jna;
 
 import java.nio.ByteBuffer;
 
+import com.ceph.rados.timeval;
 import com.sun.jna.Callback;
 import com.sun.jna.Library;
 import com.sun.jna.Native;
@@ -76,6 +77,7 @@ public interface Rados extends Library {
     int rados_trunc(Pointer ioctx, String oid, long size);
     int rados_clone_range(Pointer ioctx, String dst, long dst_off, String src, long src_off, long len);
     int rados_stat(Pointer ioctxo, String oi, LongByReference size, LongByReference mtime);
+    int rados_lock_exclusive(Pointer ioctxo, String oid, String name, String cookie, String desc, timeval.ByReference duration, byte flags);
     Pointer rados_create_read_op();
     void rados_release_read_op(Pointer read_op);
     void rados_read_op_read(Pointer read_op, long offset, long len, ByteBuffer direct_buffer, LongByReference bytes_read, IntByReference prval);

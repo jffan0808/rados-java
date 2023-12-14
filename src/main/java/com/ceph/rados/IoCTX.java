@@ -555,6 +555,18 @@ public class IoCTX extends RadosBase implements Closeable {
         return new RadosObjectInfo(oid, size.getValue(), mtime.getValue());
     }
 
+    public int lockExclusive(final String oid, final String name, final String cookie, int seconds)
+      throws RadosException {
+        final timeval.ByReference tv = new timeval.ByReference();
+        final String desc = "default";
+        return handleReturnCode(new Callable<Integer>() {
+            @Override
+            public Integer call() throws Exception {
+                return rados.rados_lock_exclusive(getPointer(), oid, name, cookie, desc, tv, (byte)0);
+            }
+        },  "Failed locking object %s", oid);
+      }
+
     /**
      * Stat the currently open pool
      *
